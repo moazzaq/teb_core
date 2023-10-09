@@ -3,32 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Country;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
-class CountriesController extends Controller
+class ServicesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('backend.countries.index');
+        return view('backend.services.index');
     }
 
-    public function countries_api(Request $request)
+    public function services_api(Request $request)
     {
         $columns = [
             1 => 'id',
             2 => 'name',
-            3 => 'country_key',
             4 => 'created_at',
         ];
 
         $search = [];
 
-        $totalData = Country::count();
+        $totalData = Service::count();
 
         $totalFiltered = $totalData;
 
@@ -37,10 +36,10 @@ class CountriesController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
 
-        $countriesQuery = Country::query();
+        $servicesQuery = Service::query();
 
         if (empty($request->input('search.value'))) {
-            $countries = $countriesQuery
+            $services = $servicesQuery
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
@@ -48,7 +47,7 @@ class CountriesController extends Controller
         } else {
             $search = $request->input('search.value');
 
-            $countries = $countriesQuery
+            $services = $servicesQuery
                 ->where(function($query) use ($search) {
                     $query->where('id', 'LIKE', "%{$search}%")
                         ->orWhere('name->ar', 'LIKE', "%{$search}%")
@@ -59,7 +58,7 @@ class CountriesController extends Controller
                 ->orderBy($order, $dir)
                 ->get();
 
-            $totalFiltered = $countriesQuery
+            $totalFiltered = $servicesQuery
                 ->where(function($query) use ($search) {
                     $query->where('id', 'LIKE', "%{$search}%")
                         ->orWhere('name->ar', 'LIKE', "%{$search}%")
@@ -70,17 +69,15 @@ class CountriesController extends Controller
 
         $data = [];
 
-        if (!empty($countries)) {
+        if (!empty($services)) {
             // providing a dummy id instead of database ids
             $ids = $start;
 
-            foreach ($countries as $country) {
-                $nestedData['id'] = $country->id;
-                $nestedData['country_key'] = $country->country_key;
+            foreach ($services as $service) {
+                $nestedData['id'] = $service->id;
                 $nestedData['fake_id'] = ++$ids;
-                $nestedData['name'] = $country->getTranslation('name', app()->getLocale(Config::get('app.locale')));
-                //   $nestedData['image'] = asset('storage/'.$country->image);
-                $nestedData['created_at'] = $country->created_at->format('M Y');
+                $nestedData['name'] = $service->getTranslation('name', app()->getLocale(Config::get('app.locale')));
+                $nestedData['created_at'] = $service->created_at->format('M Y');
 
                 $data[] = $nestedData;
             }
@@ -116,52 +113,32 @@ class CountriesController extends Controller
      */
     public function store(Request $request)
     {
-        $countryId = $request->id;
-        $existingCountry = Country::find($countryId);
-
-        $commonRules = [
-            'name_ar' => 'required|unique:countries,name->ar,'. $countryId,
-            'name_en' => 'required|unique:countries,name->en,'. $countryId,
-            'country_key' => 'required',
-        ];
-
-        // Add the 'required' rule for 'image' for store operation
-        $storeRules = $commonRules + [
-                //      'image' => 'required',
-            ];
-
-        // Apply the appropriate validation rules based on the operation
-        $request->validate($countryId ? $commonRules : $storeRules);
+        $serviceId = $request->id;
+        $request->validate([
+            'name_ar' => 'required|unique:services,name->ar,'. $serviceId,
+            'name_en' => 'required|unique:services,name->en,'. $serviceId,
+        ]);
 
         $data['name'] = ['en' => $request->name_en, 'ar'  => $request->name_ar];
-        $data['country_key'] = $request->country_key;
-//        if ($request->hasFile('image')) {
-//            $newImagePath = $request->file('image')->store('countries', 'public');
-//
-//            $oldCountryPath = $existingCountry->image;
-//            if ($oldCountryPath !== null && Storage::disk('public')->exists($oldCountryPath)) {
-//                Storage::disk('public')->delete($oldCountryPath);
-//            }
-//            $data['image'] = $newImagePath;
-//        }
-        if ($countryId) {
-            // update the value
-            $country = Country::whereId($countryId)->firstOrFail();
 
-            $country->update($data);
+        if ($serviceId) {
+            // update the value
+            $service = Service::whereId($serviceId)->firstOrFail();
+
+            $service->update($data);
 
             // user updated
             return response()->json('Updated');
         } else {
             // create new one if email is unique
-            $country = Country::where('id', $request->id)->first();
+            $service = Service::where('id', $request->id)->first();
 
-            if (empty($country)) {
-                $country = Country::create($data);
+            if (empty($service)) {
+                $service = Service::create($data);
 
                 return response()->json('Created');
             } else {
-                // country Already exist
+                // category Already exist
                 return response()->json(['message' => "Already exits"], 422);
             }
         }
@@ -170,7 +147,7 @@ class CountriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Country $country)
+    public function show(Service $service)
     {
         //
     }
@@ -178,15 +155,15 @@ class CountriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Country $country)
+    public function edit(Service $service)
     {
-        return response()->json($country);
+        return response()->json($service);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Country $country)
+    public function update(Request $request, Service $service)
     {
         //
     }
@@ -194,9 +171,9 @@ class CountriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Country $country)
+    public function destroy(Service $service)
     {
-        $country->delete();
-        return 'Country deleted';
+        $service->delete();
+        return 'Service deleted';
     }
 }

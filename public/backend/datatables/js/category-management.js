@@ -3,6 +3,26 @@
  */
 
 'use strict';
+const validationMessages = $('#validation-messages');
+const addNewTranslation = validationMessages.data('add-new');
+const nameEnRequiredTranslation = validationMessages.data('name-en-required');
+const nameArRequiredTranslation = validationMessages.data('name-ar-required');
+const parentIdRequiredTranslation = validationMessages.data('parent-id-required');
+const countryIDRequiredTranslation = validationMessages.data('country-id-required');
+const exportFile = validationMessages.data('export');
+const selectOption = validationMessages.data('select');
+const edit = validationMessages.data('edit');
+const confirm = validationMessages.data('confirm');
+const deleteItem = validationMessages.data('delete');
+const cancel = validationMessages.data('cancel');
+const search = validationMessages.data('search');
+const next = validationMessages.data('next');
+const previous = validationMessages.data('previous');
+const showing = validationMessages.data('showing');
+const to = validationMessages.data('to');
+const of = validationMessages.data('of');
+const entries = validationMessages.data('entries');
+const actions = validationMessages.data('Actions');
 
 // Datatable (jquery)
 $(function () {
@@ -15,7 +35,7 @@ $(function () {
     if (select2.length) {
         var $this = select2;
         $this.wrap('<div class="position-relative"></div>').select2({
-            placeholder: 'Select Country',
+            placeholder: selectOption,
             dropdownParent: $this.parent()
         });
     }
@@ -119,7 +139,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: 'Actions',
+                    title: actions,
                     searchable: false,
                     orderable: false,
                     render: function (data, type, full, meta) {
@@ -152,14 +172,20 @@ $(function () {
             language: {
                 sLengthMenu: '_MENU_',
                 search: '',
-                searchPlaceholder: 'Search..'
+                searchPlaceholder: search,
+                paginate: {
+                    next: next,
+                    previous: previous
+                },
+                // info: 'Showing _START_ to _END_ of _TOTAL_ entries'
+                info: showing +' _START_ ' + to + ' _END_ ' + of + ' _TOTAL_ ' + entries
             },
             // Buttons with Dropdown
             buttons: [
                 {
                     extend: 'collection',
                     className: 'btn btn-label-primary dropdown-toggle mx-3',
-                    text: '<i class="ti ti-logout rotate-n90 me-2"></i>Export',
+                    text: '<i class="ti ti-logout rotate-n90 me-2"></i>' + exportFile,
                     buttons: [
                         {
                             extend: 'print',
@@ -307,7 +333,7 @@ $(function () {
                     ]
                 },
                 {
-                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">Add New Category</span>',
+                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">' + addNewTranslation + '</span>',
                     className: 'add-new btn btn-primary',
                     attr: {
                         'data-bs-toggle': 'offcanvas',
@@ -376,16 +402,17 @@ $(function () {
 
         // sweetalert for confirmation of delete
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: confirm,
+          //  text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: deleteItem,
             customClass: {
                 confirmButton: 'btn btn-primary me-3',
                 cancelButton: 'btn btn-label-secondary'
             },
-            buttonsStyling: false
+            buttonsStyling: false,
+            cancelButtonText: cancel,
         }).then(function (result) {
             if (result.value) {
                 // delete the data
@@ -411,7 +438,7 @@ $(function () {
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire({
-                    title: 'Cancelled',
+                    title: cancel,
                     text: 'The Category is not deleted!',
                     icon: 'error',
                     customClass: {
@@ -434,21 +461,28 @@ $(function () {
 
         // changing the title of offcanvas
 
-        $('#offcanvasAddCategoryLabel').html('Edit Category');
+        $('#offcanvasAddCategoryLabel').html(edit);
 
         // get data
         $.get(`${baseUrl}/admin/categories\/${category_id}\/edit`, function (data) {
+
+            var selectedCountryIds = data.countries;
+            $('#country_id option').prop('selected', false);
             $('#category_id').val(data.id);
             $('#add-category-name-ar').val(data.name.ar);
             $('#add-category-name-en').val(data.name.en);
             $('#add-category-slug').val(data.slug);
+            $.each(selectedCountryIds, function(index, value) {
+                $('#country_id option[value="' + value.id + '"]').prop('selected', true);
+            });
+            $('#country_id').trigger('change');
         });
     });
 
     // changing the title
     $('.add-new').on('click', function () {
         $('#category_id').val(''); //reseting input field
-        $('#offcanvasAddCategoryLabel').html('Add Category');
+        $('#offcanvasAddCategoryLabel').html(addNewTranslation);
     });
 
     // Filter form control to default size
@@ -467,14 +501,26 @@ $(function () {
             name_en: {
                 validators: {
                     notEmpty: {
-                        message: 'Please enter name (en)'
+                        message: nameEnRequiredTranslation
                     }
                 }
             },
             name_ar: {
                 validators: {
                     notEmpty: {
-                        message: 'Please enter name (ar)'
+                        message: nameArRequiredTranslation
+                    }
+                }
+            },
+            'country_id[]': {
+                validators: {
+                    notEmpty: {
+                        message: countryIDRequiredTranslation
+                    },
+                    choice: {
+                        min: 1, // Minimum of 1 option must be selected
+                        max: null, // Maximum can be set if needed
+                       // message: 'Please select at least one country.'
                     }
                 }
             },

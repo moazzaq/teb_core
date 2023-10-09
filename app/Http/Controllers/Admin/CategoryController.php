@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
@@ -14,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('backend.categories.index');
+        $countries = Country::latest()->get();
+
+        return view('backend.categories.index', compact('countries'));
     }
 
     public function categories_api(Request $request)
@@ -121,20 +124,41 @@ class CategoryController extends Controller
 //        $request->validate([
 //            'name_ar' => 'required|unique:categories,name->ar,'. $categoryId,
 //            'name_en' => 'required|unique:categories,name->en,'. $categoryId,
-//            'image' => 'required',
+//       //     'image' => 'required',
+//            'country_id.*' => 'exists:countries,id',
+//        ],[
+//            'name_ar.required' => __('validation.required'),
+//            'name_en.required' => __('validation.required'),
+//            'name_ar.unique' => __('validation.unique'),
+//            'name_en.unique' => __('validation.unique'),
+//            'country_id.exists' => __('validation.exists'),
 //        ]);
-        $commonRules = [
+        $this->validate($request,[
             'name_ar' => 'required|unique:categories,name->ar,'. $categoryId,
             'name_en' => 'required|unique:categories,name->en,'. $categoryId,
-        ];
+            //     'image' => 'required',
+            'country_id.*' => 'exists:countries,id',
+        ],[
+            'name_ar.required' => __('validation.required'),
+            'name_en.required' => __('validation.required'),
+            'name_ar.unique' => __('validation.unique'),
+            'name_en.unique' => __('validation.unique'),
+            'country_id.exists' => __('validation.exists'),
+        ]);
+//        $commonRules = [
+//            'name_ar' => 'required|unique:categories,name->ar,'. $categoryId,
+//            'name_en' => 'required|unique:categories,name->en,'. $categoryId,
+//            'country_id' => 'required|array',
+//            'country_id.*' => 'exists:countries,id',
+//        ];
 
         // Add the 'required' rule for 'image' for store operation
-        $storeRules = $commonRules + [
-                //      'image' => 'required',
-            ];
+//        $storeRules = $commonRules + [
+//                //      'image' => 'required',
+//            ];
 
         // Apply the appropriate validation rules based on the operation
-        $request->validate($categoryId ? $commonRules : $storeRules);
+       // $request->validate($categoryId ? $commonRules : $storeRules);
 
         $data['name'] = ['en' => $request->name_en, 'ar'  => $request->name_ar];
 //        if ($request->hasFile('image')) {
@@ -151,7 +175,9 @@ class CategoryController extends Controller
             $category = Category::whereId($categoryId)->firstOrFail();
 
             $category->update($data);
-
+            if ($request->country_id){
+                $category->countries()->sync($request->country_id);
+            }
             // user updated
             return response()->json('Updated');
         } else {
@@ -160,7 +186,9 @@ class CategoryController extends Controller
 
             if (empty($category)) {
                 $category = Category::create($data);
-
+                if ($request->country_id){
+                    $category->countries()->attach($request->country_id);
+                }
                 return response()->json('Created');
             } else {
                 // category Already exist
@@ -182,6 +210,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        $category->load('countries');
         return response()->json($category);
     }
 

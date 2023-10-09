@@ -10,18 +10,18 @@
            <!-- Categories List Table -->
            <div class="card">
                <div class="card-header">
-                   <h5 class="card-title mb-0">Search Filter</h5>
+{{--                   <h5 class="card-title mb-0">{{__('cp.filter')}}</h5>--}}
                </div>
                <div class="card-datatable table-responsive">
                    <table class="datatables-categories table">
                        <thead class="border-top">
                        <tr>
                            <th></th>
-                           <th>Id</th>
-                           <th>Name</th>
-                           <th>Slug</th>
-                           <th>Created At</th>
-                           <th>Actions</th>
+                           <th>#</th>
+                           <th>{{__('cp.name')}}</th>
+                           <th>{{__('cp.slug')}}</th>
+                           <th>{{__('cp.created')}}</th>
+                           <th>{{__('cp.action')}}</th>
                        </tr>
                        </thead>
                    </table>
@@ -36,29 +36,58 @@
                        <form class="add-new-category pt-0" id="addNewCategoryForm" enctype="multipart/form-data">
                            <input type="hidden" name="id" id="category_id">
                            <div class="mb-3">
-                               <label class="form-label" for="add-category-name">Name (ar)</label>
-                               <input type="text" class="form-control" id="add-category-name-ar" placeholder="Category Name (ar)" name="name_ar" aria-label="Category Name (ar)" />
+                               <label class="form-label" for="add-category-name">{{__('cp.name_ar')}}</label>
+                               <input type="text" class="form-control" id="add-category-name-ar" placeholder="{{__('cp.name_ar')}}" name="name_ar" aria-label="{{__('cp.name_ar')}}" />
                            </div>
                            <div class="mb-3">
-                               <label class="form-label" for="add-category-name">Name (en)</label>
-                               <input type="text" class="form-control" id="add-category-name-en" placeholder="Category Name (en)" name="name_en" aria-label="Category Name (en)" />
+                               <label class="form-label" for="add-category-name">{{__('cp.name_en')}}</label>
+                               <input type="text" class="form-control" id="add-category-name-en" placeholder="{{__('cp.name_en')}}" name="name_en" aria-label="{{__('cp.name_en')}}" />
                            </div>
                            <div class="mb-3">
-                               <label class="form-label" for="add-category-slug">Slug</label>
-                               <input type="text" class="form-control" disabled id="add-category-slug" placeholder="Category Slug" name="slug" aria-label="Category Slug" />
+                               <label class="form-label" for="add-category-slug">{{__('cp.slug')}}</label>
+                               <input type="text" class="form-control" disabled id="add-category-slug" placeholder="{{__('cp.slug')}}" name="slug" aria-label="{{__('cp.slug')}}" />
+                           </div>
+                           <div class="mb-3">
+                               <label class="form-label" for="country_id">{{__('cp.country')}}</label>
+                               <select id="country_id" name="country_id[]" class="select2 form-select" multiple>
+                                   <option value="">{{__('cp.choose')}}</option>
+                                   @foreach($countries as $country)
+                                       <option value="{{$country->id}}">{{$country->name}}</option>
+                                   @endforeach
+                               </select>
                            </div>
 {{--                           <div class="mb-3">--}}
 {{--                               <label class="form-label" for="add-category-image">Image</label>--}}
 {{--                               <input type="file" class="form-control" id="add-category-image" name="image" aria-label="Image" />--}}
 {{--                           </div>--}}
 
-                           <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
-                           <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+                           <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">{{__('cp.save')}}</button>
+                           <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">{{__('cp.cancel')}}</button>
                        </form>
                    </div>
                </div>
            </div>
        </div>
+    </div>
+    <div id="validation-messages" style="display: none;"
+         data-add-new="{{ trans('cp.add_category') }}"
+         data-edit="{{ trans('cp.edit') }}"
+         data-name-en-required="{{ trans('cp.name_en_required') }}"
+         data-name-ar-required="{{ trans('cp.name_ar_required') }}"
+         data-parent-id-required="{{ trans('cp.parent_id_required') }}"
+         data-country-id-required="{{ trans('cp.parent_id_required') }}"
+         data-export="{{ trans('cp.export') }}"
+         data-select="{{ trans('cp.select') }}"
+         data-confirm="{{ trans('cp.confirm') }}"
+         data-delete="{{ trans('cp.delete') }}"
+         data-cancel="{{ trans('cp.cancel') }}"
+         data-search="{{ trans('cp.search') }}"
+         data-next="{{ trans('cp.next') }}"
+         data-showing="{{ trans('cp.showing') }}"
+         data-to="{{ trans('cp.to') }}"
+         data-of="{{ trans('cp.of') }}"
+         data-entries="{{ trans('cp.entries') }}"
+         data-actions="{{ trans('cp.action') }}">
     </div>
 @endsection
 

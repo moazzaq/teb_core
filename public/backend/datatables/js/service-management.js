@@ -1,5 +1,5 @@
 /**
- * Page Country List
+ * Page Category List
  */
 
 'use strict';
@@ -7,9 +7,18 @@
 // Datatable (jquery)
 $(function () {
     // Variable declaration for table
-    var dt_country_table = $('.datatables-countries'),
-        countryView = baseUrl + '/admin/api-countries',
-        offCanvasForm = $('#offcanvasAddCountry');
+    var dt_category_table = $('.datatables-services'),
+        select2 = $('.select2'),
+        categoryView = baseUrl + '/admin/api-services',
+        offCanvasForm = $('#offcanvasAddService');
+
+    if (select2.length) {
+        var $this = select2;
+        $this.wrap('<div class="position-relative"></div>').select2({
+            placeholder: 'Select Country',
+            dropdownParent: $this.parent()
+        });
+    }
 
     // ajax setup
     $.ajaxSetup({
@@ -18,20 +27,19 @@ $(function () {
         }
     });
 
-    // countries datatable
-    if (dt_country_table.length) {
-        var dt_country = dt_country_table.DataTable({
+    // Categories datatable
+    if (dt_category_table.length) {
+        var dt_category = dt_category_table.DataTable({
             processing: true,
             serverSide: true,
             ajax: {
-                url: baseUrl + '/admin/api-countries'
+                url: baseUrl + '/admin/api-services'
             },
             columns: [
                 // columns according to JSON
                 { data: '' },
                 { data: 'id' },
                 { data: 'name'},
-                { data: 'country_key'},
                 { data: 'created_at'},
                 { data: 'action' }
             ],
@@ -56,12 +64,12 @@ $(function () {
                     }
                 },
                 {
-                    // country name
+                    // Category name
                     targets: 2,
                     // render: function (data, type, full, meta) {
                     //     var $name = full['name'];
                     //
-                    //     return '<span class="country-name">' + $name + '</span>';
+                    //     return '<span class="category-name">' + $name + '</span>';
                     // }
                     render: function (data, type, full, meta) {
                         var $name = full['name'],
@@ -70,7 +78,7 @@ $(function () {
                         // if ($image) {
                         //     // For Product image
                         //
-                        //     var $output = '<img src="' + $image + '" alt="country-' + $id + '" class="rounded-2">';
+                        //     var $output = '<img src="' + $image + '" alt="Category-' + $id + '" class="rounded-2">';
                         // }
                         // Creates full output for Product name and product_brand
                         var $row_output =
@@ -93,18 +101,9 @@ $(function () {
                     // Created at
                     targets: 3,
                     render: function (data, type, full, meta) {
-                        var $country_key = full['country_key'];
-
-                        return '<span class="country-country_key">' + $country_key + '</span>';
-                    }
-                },
-                {
-                    // Created at
-                    targets: 4,
-                    render: function (data, type, full, meta) {
                         var $created_at = full['created_at'];
 
-                        return '<span class="country-created_at">' + $created_at + '</span>';
+                        return '<span class="category-created_at">' + $created_at + '</span>';
                     }
                 },
                 {
@@ -116,7 +115,7 @@ $(function () {
                     render: function (data, type, full, meta) {
                         return (
                             '<div class="d-inline-block text-nowrap">' +
-                            `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCountry"><i class="ti ti-edit"></i></button>` +
+                            `<button class="btn btn-sm btn-icon edit-record" data-id="${full['id']}" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddService"><i class="ti ti-edit"></i></button>` +
                             `<button class="btn btn-sm btn-icon delete-record" data-id="${full['id']}"><i class="ti ti-trash"></i></button>` +
                             // '<button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical"></i></button>' +
                             // '<div class="dropdown-menu dropdown-menu-end m-0">' +
@@ -154,11 +153,11 @@ $(function () {
                     buttons: [
                         {
                             extend: 'print',
-                            title: 'countries',
+                            title: 'Services',
                             text: '<i class="ti ti-printer me-2" ></i>Print',
                             className: 'dropdown-item',
                             exportOptions: {
-                                columns: [1, 2, 3, 4],
+                                columns: [1, 2, 3],
                                 // prevent avatar to be print
                                 format: {
                                     body: function (inner, coldex, rowdex) {
@@ -169,7 +168,7 @@ $(function () {
                                             // if (item.classList !== undefined && item.classList.contains('user-name')) {
                                             //     result = result + item.lastChild.textContent;
                                             // } else result = result + item.innerText;
-                                            if (item && item.classList && item.classList.contains('country-name')) {
+                                            if (item && item.classList && item.classList.contains('service-name')) {
                                                 result = result + item.lastChild.textContent;
                                             } else result = result + item.innerText;
                                         });
@@ -193,11 +192,11 @@ $(function () {
                         },
                         {
                             extend: 'csv',
-                            title: 'countries',
+                            title: 'Services',
                             text: '<i class="ti ti-file-text me-2" ></i>Csv',
                             className: 'dropdown-item',
                             exportOptions: {
-                                columns: [1, 2, 3, 4],
+                                columns: [1, 2, 3],
                                 // prevent avatar to be print
                                 format: {
                                     body: function (inner, coldex, rowdex) {
@@ -208,7 +207,7 @@ $(function () {
                                             // if (item.classList.contains('user-name')) {
                                             //     result = result + item.lastChild.textContent;
                                             // } else result = result + item.innerText;
-                                            if (item && item.classList && item.classList.contains('country-name')) {
+                                            if (item && item.classList && item.classList.contains('service-name')) {
                                                 result = result + item.lastChild.textContent;
                                             } else result = result + item.innerText;
                                         });
@@ -219,11 +218,11 @@ $(function () {
                         },
                         {
                             extend: 'excel',
-                            title: 'countries',
+                            title: 'Services',
                             text: '<i class="ti ti-file-spreadsheet me-2"></i>Excel',
                             className: 'dropdown-item',
                             exportOptions: {
-                                columns: [1, 2, 3, 4],
+                                columns: [1, 2, 3],
                                 // prevent avatar to be display
                                 format: {
                                     body: function (inner, coldex, rowdex) {
@@ -234,7 +233,7 @@ $(function () {
                                             // if (item.classList.contains('user-name')) {
                                             //     result = result + item.lastChild.textContent;
                                             // } else result = result + item.innerText;
-                                            if (item && item.classList && item.classList.contains('country-name')) {
+                                            if (item && item.classList && item.classList.contains('service-name')) {
                                                 result = result + item.lastChild.textContent;
                                             } else result = result + item.innerText;
                                         });
@@ -245,11 +244,11 @@ $(function () {
                         },
                         {
                             extend: 'pdf',
-                            title: 'countries',
+                            title: 'Services',
                             text: '<i class="ti ti-file-text me-2"></i>Pdf',
                             className: 'dropdown-item',
                             exportOptions: {
-                                columns: [1, 2, 3, 4],
+                                columns: [1, 2, 3],
                                 // prevent avatar to be display
                                 format: {
                                     body: function (inner, coldex, rowdex) {
@@ -260,7 +259,7 @@ $(function () {
                                             // if (item.classList.contains('user-name')) {
                                             //     result = result + item.lastChild.textContent;
                                             // } else result = result + item.innerText;
-                                            if (item && item.classList && item.classList.contains('country-name')) {
+                                            if (item && item.classList && item.classList.contains('service-name')) {
                                                 result = result + item.lastChild.textContent;
                                             } else result = result + item.innerText;
                                         });
@@ -271,11 +270,11 @@ $(function () {
                         },
                         {
                             extend: 'copy',
-                            title: 'countries',
+                            title: 'Services',
                             text: '<i class="ti ti-copy me-1" ></i>Copy',
                             className: 'dropdown-item',
                             exportOptions: {
-                                columns: [1, 2, 3, 4],
+                                columns: [1, 2, 3],
                                 // prevent avatar to be copy
                                 format: {
                                     body: function (inner, coldex, rowdex) {
@@ -286,7 +285,7 @@ $(function () {
                                             // if (item.classList.contains('user-name')) {
                                             //     result = result + item.lastChild.textContent;
                                             // } else result = result + item.innerText;
-                                            if (item && item.classList && item.classList.contains('country-name')) {
+                                            if (item && item.classList && item.classList.contains('service-name')) {
                                                 result = result + item.lastChild.textContent;
                                             } else result = result + item.innerText;
                                         });
@@ -298,11 +297,11 @@ $(function () {
                     ]
                 },
                 {
-                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">Add New country</span>',
+                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">Add New Service</span>',
                     className: 'add-new btn btn-primary',
                     attr: {
                         'data-bs-toggle': 'offcanvas',
-                        'data-bs-target': '#offcanvasAddCountry'
+                        'data-bs-target': '#offcanvasAddService'
                     }
                 }
             ],
@@ -357,7 +356,7 @@ $(function () {
 
     // Delete Record
     $(document).on('click', '.delete-record', function () {
-        var country_id = $(this).data('id'),
+        var service_id = $(this).data('id'),
             dtrModal = $('.dtr-bs-modal.show');
 
         // hide responsive modal in small screen
@@ -382,9 +381,9 @@ $(function () {
                 // delete the data
                 $.ajax({
                     type: 'DELETE',
-                    url: `${baseUrl}/admin/countries/${country_id}`,
+                    url: `${baseUrl}/admin/services/${serviceid}`,
                     success: function () {
-                        dt_country.draw();
+                        dt_category.draw();
                     },
                     error: function (error) {
                         console.log(error);
@@ -395,7 +394,7 @@ $(function () {
                 Swal.fire({
                     icon: 'success',
                     title: 'Deleted!',
-                    text: 'The country has been deleted!',
+                    text: 'The Service has been deleted!',
                     customClass: {
                         confirmButton: 'btn btn-success'
                     }
@@ -403,7 +402,7 @@ $(function () {
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire({
                     title: 'Cancelled',
-                    text: 'The country is not deleted!',
+                    text: 'The Service is not deleted!',
                     icon: 'error',
                     customClass: {
                         confirmButton: 'btn btn-success'
@@ -415,7 +414,7 @@ $(function () {
 
     // edit record
     $(document).on('click', '.edit-record', function () {
-        var country_id = $(this).data('id'),
+        var service_id = $(this).data('id'),
             dtrModal = $('.dtr-bs-modal.show');
 
         // hide responsive modal in small screen
@@ -424,21 +423,21 @@ $(function () {
         }
 
         // changing the title of offcanvas
-        $('#offcanvasAddCountryLabel').html('Edit country');
+
+        $('#offcanvasAddServiceLabel').html('Edit Service');
 
         // get data
-        $.get(`${baseUrl}/admin/countries\/${country_id}\/edit`, function (data) {
-            $('#country_id').val(data.id);
-            $('#add-country-name-ar').val(data.name.ar);
-            $('#add-country-name-en').val(data.name.en);
-            $('#add-country-key').val(data.country_key);
+        $.get(`${baseUrl}/admin/services\/${service_id}\/edit`, function (data) {
+            $('#service_id').val(data.id);
+            $('#add-service-name-ar').val(data.name.ar);
+            $('#add-service-name-en').val(data.name.en);
         });
     });
 
     // changing the title
     $('.add-new').on('click', function () {
-        $('#country_id').val(''); //reseting input field
-        $('#offcanvasAddCountryLabel').html('Add country');
+        $('#service_id').val(''); //reseting input field
+        $('#offcanvasAddServiceLabel').html('Add Service');
     });
 
     // Filter form control to default size
@@ -448,11 +447,11 @@ $(function () {
         $('.dataTables_length .form-select').removeClass('form-select-sm');
     }, 300);
 
-    // validating form and updating countries data
-    const addNewCountryForm = document.getElementById('addNewCountryForm');
+    // validating form and updating categories data
+    const addNewServiceForm = document.getElementById('addNewServiceForm');
 
-    // country form validation
-    const fv = FormValidation.formValidation(addNewCountryForm, {
+    // category form validation
+    const fv = FormValidation.formValidation(addNewServiceForm, {
         fields: {
             name_en: {
                 validators: {
@@ -468,20 +467,6 @@ $(function () {
                     }
                 }
             },
-            country_key: {
-                validators: {
-                    notEmpty: {
-                        message: 'Please enter country key'
-                    }
-                }
-            },
-            // image: {
-            //     validators: {
-            //         notEmpty: {
-            //             message: 'Please upload image'
-            //         }
-            //     }
-            // },
         },
         plugins: {
             trigger: new FormValidation.plugins.Trigger(),
@@ -499,27 +484,27 @@ $(function () {
             autoFocus: new FormValidation.plugins.AutoFocus()
         }
     }).on('core.form.valid', function () {
-        var formData = new FormData(addNewCountryForm);
-        // adding or updating country when form successfully validate
+        var formData = new FormData(addNewServiceForm);
+        // adding or updating category when form successfully validate
         $.ajax({
-            // data: $('#addNewcountryForm').serialize(),
-            url: `${baseUrl}/admin/countries`,
+            // data: $('#addNewCategoryForm').serialize(),
+            url: `${baseUrl}/admin/services`,
             type: 'POST',
             data: formData,
             dataType: 'json',
             contentType: false,
             processData: false,
             success: function (status) {
-                dt_country.draw();
+                dt_category.draw();
                 offCanvasForm.offcanvas('hide');
                 // Clear form inputs
-                $('#addNewCountryForm').trigger('reset');
+                $('#addNewServiceForm').trigger('reset');
 
                 // sweetalert
                 Swal.fire({
                     icon: 'success',
                     title: `Successfully ${status}!`,
-                    text: `country ${status} Successfully.`,
+                    text: `Service ${status} Successfully.`,
                     customClass: {
                         confirmButton: 'btn btn-success'
                     }

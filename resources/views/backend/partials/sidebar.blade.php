@@ -120,7 +120,30 @@ request()->is(app()->getLocale().'/admin/areas*') ? 'open' : '' }}">
                     </a>
                 </li>
             </ul>
-
+        <li class="menu-item {{ request()->is(app()->getLocale().'/admin/nationality') ? 'active' : '' }}">
+            <a href="{{route('admin.nationality.index')}}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div>{{__('cp.nationality')}}</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->is(app()->getLocale().'/admin/insurance') ? 'active' : '' }}">
+            <a href="{{route('admin.insurance.index')}}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div>{{__('cp.insurance')}}</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->is(app()->getLocale().'/admin/currencies') ? 'active' : '' }}">
+            <a href="{{route('admin.currencies.index')}}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div>{{__('cp.currencies')}}</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->is(app()->getLocale().'/admin/services') ? 'active' : '' }}">
+            <a href="{{route('admin.services.index')}}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div>{{__('cp.services')}}</div>
+            </a>
+        </li>
             <!-- Apps & Pages -->
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Members</span>
@@ -129,7 +152,7 @@ request()->is(app()->getLocale().'/admin/areas*') ? 'open' : '' }}">
         <li class="menu-item {{ request()->is(app()->getLocale().'/admin/users*') ? 'active' : '' }}">
             <a href="{{route('admin.users.index')}}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-users"></i>
-                <div>Users</div>
+                <div>{{__('cp.users')}}</div>
             </a>
         </li>
 
@@ -144,7 +167,7 @@ request()->is(app()->getLocale().'/admin/areas*') ? 'open' : '' }}">
                    onclick="event.preventDefault();
                                         this.closest('form').submit();">
                     <i class="ti ti-logout me-2 ti-sm"></i>
-                    <div>Logout</div>
+                    <div>{{__('cp.logout')}}</div>
                 </a>
             </form>
         </li>

@@ -435,22 +435,13 @@
                     <li>
                         <a class="dropdown-item" href="{{route('admin.users.profile.edit')}}">
                             <i class="ti ti-user-check me-2 ti-sm"></i>
-                            <span class="align-middle">My Profile</span>
+                            <span class="align-middle">{{__('cp.Profile')}}</span>
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" href="">
                             <i class="ti ti-settings me-2 ti-sm"></i>
-                            <span class="align-middle">Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="">
-                            <i class="ti ti-help me-2 ti-sm"></i>
-                            <span class="align-middle">FAQ</span>
+                            <span class="align-middle">{{__('cp.settings')}}</span>
                         </a>
                     </li>
                     <li>
@@ -463,7 +454,7 @@
                            onclick="event.preventDefault();
                                         this.closest('form').submit();">
                             <i class="ti ti-logout me-2 ti-sm"></i>
-                            <span class="align-middle">Log Out</span>
+                            <span class="align-middle">{{__('cp.logout')}}</span>
                         </a>
                         </form>
                     </li>

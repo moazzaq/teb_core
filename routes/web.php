@@ -6,8 +6,10 @@ use App\Http\Controllers\Admin\CasesController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\CountriesController;
+use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Admin\InsuranceController;
 use App\Http\Controllers\Admin\NationalityController;
+use App\Http\Controllers\Admin\ServicesController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\TreatmentsController;
 use App\Http\Controllers\Admin\UserController;
@@ -78,6 +80,12 @@ Route::group(
 
         Route::resource('/insurance', InsuranceController::class);
         Route::get('/api-insurance', [InsuranceController::class, 'insurance_api'])->name('insurance.api');
+
+        Route::resource('/currencies', CurrencyController::class);
+        Route::get('/api-currencies', [CurrencyController::class, 'currencies_api'])->name('currencies.api');
+
+        Route::resource('/services', ServicesController::class);
+        Route::get('/api-services', [ServicesController::class, 'services_api'])->name('services.api');
 
         Route::get('/get-sub-category-by-category/{category}', [AdminController::class, 'get_sub_categories'])->name('get_sub_categories');
     });

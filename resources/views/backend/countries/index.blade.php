@@ -19,6 +19,7 @@
                            <th></th>
                            <th>Id</th>
                            <th>Name</th>
+                           <th>Country Key</th>
                            <th>Created At</th>
                            <th>Actions</th>
                        </tr>
@@ -46,6 +47,10 @@
 {{--                               <label class="form-label" for="add-country-image">Image</label>--}}
 {{--                               <input type="file" class="form-control" id="add-country-image" name="image" aria-label="Image" />--}}
 {{--                           </div>--}}
+                           <div class="mb-3">
+                               <label class="form-label" for="add-country-key">Country key</label>
+                               <input type="text" class="form-control" id="add-country-key" name="country_key" aria-label="Country key" />
+                           </div>
 
                            <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
                            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
