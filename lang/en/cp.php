@@ -973,7 +973,9 @@ return [
     "name_en_required" => "Please enter name (English)",
     "name_ar_required" => "Please enter name (Arabic)",
     "parent_id_required" => "Please enter main category",
+    "country_key_required" => "Please enter country key",
     'add_category' => 'Add New Category',
+    'add_sub_category' => 'Add New Sub-Category',
     'add_country' => 'Add New Country',
     'not_found' => 'Not Found',
     'cities_count' => 'Cities Count',
@@ -992,6 +994,7 @@ return [
     'showing' => 'Showing',
     'of' => 'of',
     'entries' => 'entries',
+    'country_key' => 'Country Key',
 
 
 ];

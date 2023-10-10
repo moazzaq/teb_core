@@ -83,11 +83,15 @@
          data-cancel="{{ trans('cp.cancel') }}"
          data-search="{{ trans('cp.search') }}"
          data-next="{{ trans('cp.next') }}"
+         data-previous="{{ trans('cp.previous') }}"
          data-showing="{{ trans('cp.showing') }}"
          data-to="{{ trans('cp.to') }}"
          data-of="{{ trans('cp.of') }}"
          data-entries="{{ trans('cp.entries') }}"
-         data-actions="{{ trans('cp.action') }}">
+         data-actions="{{ trans('cp.action') }}"
+         data-lang="{{ app()->getLocale() }}"
+         data-oky="{{ trans('cp.oky') }}"
+         data-delete_done="{{ trans('cp.delete_done') }}">
     </div>
 @endsection
 

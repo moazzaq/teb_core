@@ -151,7 +151,7 @@ class CountriesController extends Controller
             $country->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $country = Country::where('id', $request->id)->first();
@@ -159,7 +159,7 @@ class CountriesController extends Controller
             if (empty($country)) {
                 $country = Country::create($data);
 
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // country Already exist
                 return response()->json(['message' => "Already exits"], 422);

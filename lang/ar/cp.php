@@ -1151,7 +1151,9 @@ return [
     "name_en_required" => "من فضلك أدخل الاسم (إنجليزي)",
     "name_ar_required" => "من فضلك أدخل الاسم (عربي)",
     "parent_id_required" => "من فضلك اختر الفئة الرئيسية",
+    "country_key_required" => "من فضلك أدخل مفتاح الدولة",
     'add_category' => 'اضافة قسم',
+    'add_sub_category' => 'اضافة قسم فرعي',
     'add_country' => 'اضافة دولة',
     'not_found' => 'لا يوجد بعد',
     'cities_count' => 'عدد المدن',
@@ -1170,6 +1172,7 @@ return [
     'showing' => 'عرض',
     'of' => 'من',
     'entries' => 'السجلات',
+    'country_key' => 'مفتاح الدولة',
 ];
 
 

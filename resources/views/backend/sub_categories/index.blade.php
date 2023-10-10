@@ -19,7 +19,7 @@
         <!-- Product List Table -->
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">Filter</h5>
+                <h5 class="card-title mb-0">{{__('cp.filter')}}</h5>
 {{--                <form>--}}
                     <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">
 
@@ -37,7 +37,7 @@
                                     id="filterByCategoryBtn">
                                         <span>
                                             <i class="la la-search"></i>
-                                            <span>Filter</span>
+                                            <span>{{__('cp.filter')}}</span>
                                         </span>
                             </button>
                         </div>
@@ -50,12 +50,12 @@
                     <thead class="border-top">
                     <tr>
                         <th></th>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Slug</th>
-                        <th>Main Category</th>
-                        <th>Created At</th>
-                        <th>Actions</th>
+                        <th>#</th>
+                        <th>{{__('cp.name')}}</th>
+                        <th>{{__('cp.slug')}}</th>
+                        <th>{{__('cp.maincategory')}}</th>
+                        <th>{{__('cp.created')}}</th>
+                        <th>{{__('cp.action')}}</th>
                     </tr>
                     </thead>
                 </table>
@@ -71,32 +71,32 @@
                     <form class="add-new-sub-category pt-0" id="addNewSubCategoryForm">
                         <input type="hidden" name="id" id="category_id">
                         <div class="mb-3">
-                            <label class="form-label" for="add-category-name">Name (ar)</label>
+                            <label class="form-label" for="add-category-name">{{__('cp.name_ar')}}</label>
                             <input type="text" class="form-control" id="add-category-name-ar"
-                                   placeholder="Category Name (ar)" name="name_ar" aria-label="Category Name (ar)"/>
+                                   placeholder="{{__('cp.name_ar')}}" name="name_ar" aria-label="{{__('cp.name_ar')}}"/>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="add-category-name">Name (en)</label>
+                            <label class="form-label" for="add-category-name">{{__('cp.name_en')}}</label>
                             <input type="text" class="form-control" id="add-category-name-en"
-                                   placeholder="Category Name (en)" name="name_en" aria-label="Category Name (en)"/>
+                                   placeholder="{{__('cp.name_en')}}" name="name_en" aria-label="{{__('cp.name_en')}}"/>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="add-category-slug">Slug</label>
+                            <label class="form-label" for="add-category-slug">{{__('cp.slug')}}</label>
                             <input type="text" class="form-control" disabled id="add-category-slug"
-                                   placeholder="Category Slug" name="slug" aria-label="Category Slug"/>
+                                   placeholder="{{__('cp.slug')}}" name="slug" aria-label="{{__('cp.slug')}}"/>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="parent_id">Main Category</label>
+                            <label class="form-label" for="parent_id">{{__('cp.maincategory')}}</label>
                             <select id="parent_id" name="parent_id" class="select2 form-select">
-                                <option value="">Select</option>
+                                <option value="">{{__('cp.choose')}}</option>
                                 @foreach($categories as $category)
                                     <option value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">{{__('cp.save')}}</button>
+                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">{{__('cp.cancel')}}</button>
                     </form>
                 </div>
             </div>
@@ -104,9 +104,28 @@
     </div>
     <div id="list_categories" data-categories="{{json_encode($parent_categories)}}"></div>
     <div id="validation-messages" style="display: none;"
-         data-name-en-required="{{ trans('cp.name_en_required') }}"
-         data-name-ar-required="{{ trans('cp.name_ar_required') }}"
-         data-parent-id-required="{{ trans('cp.parent_id_required') }}">
+        data-add-new="{{ trans('cp.add_sub_category') }}"
+        data-edit="{{ trans('cp.edit') }}"
+        data-name-en-required="{{ trans('cp.name_en_required') }}"
+        data-name-ar-required="{{ trans('cp.name_ar_required') }}"
+        data-parent-id-required="{{ trans('cp.parent_id_required') }}"
+        data-country-id-required="{{ trans('cp.parent_id_required') }}"
+        data-export="{{ trans('cp.export') }}"
+        data-select="{{ trans('cp.select') }}"
+        data-confirm="{{ trans('cp.confirm') }}"
+        data-delete="{{ trans('cp.delete') }}"
+        data-cancel="{{ trans('cp.cancel') }}"
+        data-search="{{ trans('cp.search') }}"
+        data-next="{{ trans('cp.next') }}"
+        data-previous="{{ trans('cp.previous') }}"
+        data-showing="{{ trans('cp.showing') }}"
+        data-to="{{ trans('cp.to') }}"
+        data-of="{{ trans('cp.of') }}"
+        data-entries="{{ trans('cp.entries') }}"
+        data-actions="{{ trans('cp.action') }}"
+        data-lang="{{ app()->getLocale() }}"
+        data-oky="{{ trans('cp.oky') }}"
+        data-delete_done="{{ trans('cp.delete_done') }}">
     </div>
 @endsection
 

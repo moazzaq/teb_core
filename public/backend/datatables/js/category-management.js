@@ -23,6 +23,9 @@ const to = validationMessages.data('to');
 const of = validationMessages.data('of');
 const entries = validationMessages.data('entries');
 const actions = validationMessages.data('Actions');
+const lang = validationMessages.data('lang');
+const oky = validationMessages.data('oky');
+const delete_done = validationMessages.data('delete_done');
 
 // Datatable (jquery)
 $(function () {
@@ -430,8 +433,8 @@ $(function () {
                 // success sweetalert
                 Swal.fire({
                     icon: 'success',
-                    title: 'Deleted!',
-                    text: 'The category has been deleted!',
+                  //  title: 'Deleted!',
+                    text: delete_done,
                     customClass: {
                         confirmButton: 'btn btn-success'
                     }
@@ -439,7 +442,7 @@ $(function () {
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire({
                     title: cancel,
-                    text: 'The Category is not deleted!',
+                   text: 'The Category is not deleted!',
                     icon: 'error',
                     customClass: {
                         confirmButton: 'btn btn-success'
@@ -464,7 +467,7 @@ $(function () {
         $('#offcanvasAddCategoryLabel').html(edit);
 
         // get data
-        $.get(`${baseUrl}/admin/categories\/${category_id}\/edit`, function (data) {
+        $.get(`${baseUrl}/${lang}/admin/categories\/${category_id}\/edit`, function (data) {
 
             var selectedCountryIds = data.countries;
             $('#country_id option').prop('selected', false);
@@ -552,13 +555,14 @@ $(function () {
         // adding or updating category when form successfully validate
         $.ajax({
             // data: $('#addNewCategoryForm').serialize(),
-            url: `${baseUrl}/admin/categories`,
+            url: `${baseUrl}/${lang}/admin/categories`,
             type: 'POST',
             data: formData,
             dataType: 'json',
             contentType: false,
             processData: false,
             success: function (status) {
+                console.log(status);
                 dt_category.draw();
                 offCanvasForm.offcanvas('hide');
                 // Clear form inputs
@@ -567,15 +571,16 @@ $(function () {
                 // sweetalert
                 Swal.fire({
                     icon: 'success',
-                    title: `Successfully ${status}!`,
-                    text: `Category ${status} Successfully.`,
+                    title: `${status}!`,
+                  //  text: `Category ${status} Successfully.`,
                     customClass: {
                         confirmButton: 'btn btn-success'
-                    }
+                    },
+                    confirmButtonText: oky
                 });
             },
             error: function (xhr) {
-
+                console.log(xhr)
                 if (xhr.status === 422) {
                     // Validation error
                     const errors = xhr.responseJSON.errors;

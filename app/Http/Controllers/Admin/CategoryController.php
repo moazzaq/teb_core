@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -52,7 +53,7 @@ class CategoryController extends Controller
             $search = $request->input('search.value');
 
             $categories = $categoriesQuery
-                ->where(function($query) use ($search) {
+                ->where(function ($query) use ($search) {
                     $query->where('id', 'LIKE', "%{$search}%")
                         ->orWhere('name->ar', 'LIKE', "%{$search}%")
                         ->orWhere('name->en', 'LIKE', "%{$search}%");
@@ -63,7 +64,7 @@ class CategoryController extends Controller
                 ->get();
 
             $totalFiltered = $categoriesQuery
-                ->where(function($query) use ($search) {
+                ->where(function ($query) use ($search) {
                     $query->where('id', 'LIKE', "%{$search}%")
                         ->orWhere('name->ar', 'LIKE', "%{$search}%")
                         ->orWhere('name->en', 'LIKE', "%{$search}%");
@@ -121,24 +122,13 @@ class CategoryController extends Controller
     {
         $categoryId = $request->id;
         $existingCategory = Category::find($categoryId);
-//        $request->validate([
-//            'name_ar' => 'required|unique:categories,name->ar,'. $categoryId,
-//            'name_en' => 'required|unique:categories,name->en,'. $categoryId,
-//       //     'image' => 'required',
-//            'country_id.*' => 'exists:countries,id',
-//        ],[
-//            'name_ar.required' => __('validation.required'),
-//            'name_en.required' => __('validation.required'),
-//            'name_ar.unique' => __('validation.unique'),
-//            'name_en.unique' => __('validation.unique'),
-//            'country_id.exists' => __('validation.exists'),
-//        ]);
-        $this->validate($request,[
-            'name_ar' => 'required|unique:categories,name->ar,'. $categoryId,
-            'name_en' => 'required|unique:categories,name->en,'. $categoryId,
+        $request->validate([
+            'name_ar' => 'required|unique:categories,name->ar,' . $categoryId,
+            'name_en' => 'required|unique:categories,name->en,' . $categoryId,
+            'country_id' => 'required|array',
             //     'image' => 'required',
             'country_id.*' => 'exists:countries,id',
-        ],[
+        ], [
             'name_ar.required' => __('validation.required'),
             'name_en.required' => __('validation.required'),
             'name_ar.unique' => __('validation.unique'),
@@ -158,9 +148,9 @@ class CategoryController extends Controller
 //            ];
 
         // Apply the appropriate validation rules based on the operation
-       // $request->validate($categoryId ? $commonRules : $storeRules);
+        // $request->validate($categoryId ? $commonRules : $storeRules);
 
-        $data['name'] = ['en' => $request->name_en, 'ar'  => $request->name_ar];
+        $data['name'] = ['en' => $request->name_en, 'ar' => $request->name_ar];
 //        if ($request->hasFile('image')) {
 //            $newImagePath = $request->file('image')->store('categories', 'public');
 //
@@ -175,21 +165,21 @@ class CategoryController extends Controller
             $category = Category::whereId($categoryId)->firstOrFail();
 
             $category->update($data);
-            if ($request->country_id){
+            if ($request->country_id) {
                 $category->countries()->sync($request->country_id);
             }
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $category = Category::where('id', $request->id)->first();
 
             if (empty($category)) {
                 $category = Category::create($data);
-                if ($request->country_id){
+                if ($request->country_id) {
                     $category->countries()->attach($request->country_id);
                 }
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // category Already exist
                 return response()->json(['message' => "Already exits"], 422);

@@ -117,6 +117,12 @@ class SubCategoryController extends Controller
             'name_ar' => 'required|unique:categories,name->ar,'. $categoryId,
             'name_en' => 'required|unique:categories,name->en,'. $categoryId,
             'parent_id' => 'required|exists:categories,id',
+        ],[
+            'name_ar.required' => __('validation.required'),
+            'name_en.required' => __('validation.required'),
+            'name_ar.unique' => __('validation.unique'),
+            'name_en.unique' => __('validation.unique'),
+            'parent_id.exists' => __('validation.exists'),
         ]);
 
         $data['name'] = ['en' => $request->name_en, 'ar' => $request->name_ar];
@@ -128,7 +134,7 @@ class SubCategoryController extends Controller
             $category->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $category = Category::where('id', $request->id)->first();
@@ -137,7 +143,7 @@ class SubCategoryController extends Controller
                 $category = Category::create($data);
 
                 // category created
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // category already exist
                 return response()->json(['message' => "already exits"], 422);

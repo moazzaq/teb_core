@@ -3,7 +3,29 @@
  */
 
 'use strict';
-
+const validationMessages = $('#validation-messages');
+const addNewTranslation = validationMessages.data('add-new');
+const nameEnRequiredTranslation = validationMessages.data('name-en-required');
+const nameArRequiredTranslation = validationMessages.data('name-ar-required');
+const parentIdRequiredTranslation = validationMessages.data('parent-id-required');
+const countryKeyRequiredTranslation = validationMessages.data('country-key-required');
+const exportFile = validationMessages.data('export');
+const selectOption = validationMessages.data('select');
+const edit = validationMessages.data('edit');
+const confirm = validationMessages.data('confirm');
+const deleteItem = validationMessages.data('delete');
+const cancel = validationMessages.data('cancel');
+const search = validationMessages.data('search');
+const next = validationMessages.data('next');
+const previous = validationMessages.data('previous');
+const showing = validationMessages.data('showing');
+const to = validationMessages.data('to');
+const of = validationMessages.data('of');
+const entries = validationMessages.data('entries');
+const actions = validationMessages.data('Actions');
+const lang = validationMessages.data('lang');
+const oky = validationMessages.data('oky');
+const delete_done = validationMessages.data('delete_done');
 // Datatable (jquery)
 $(function () {
     // Variable declaration for table
@@ -110,7 +132,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: 'Actions',
+                    title: actions,
                     searchable: false,
                     orderable: false,
                     render: function (data, type, full, meta) {
@@ -143,14 +165,20 @@ $(function () {
             language: {
                 sLengthMenu: '_MENU_',
                 search: '',
-                searchPlaceholder: 'Search..'
+                searchPlaceholder: search,
+                paginate: {
+                    next: next,
+                    previous: previous
+                },
+                // info: 'Showing _START_ to _END_ of _TOTAL_ entries'
+                info: showing +' _START_ ' + to + ' _END_ ' + of + ' _TOTAL_ ' + entries
             },
             // Buttons with Dropdown
             buttons: [
                 {
                     extend: 'collection',
                     className: 'btn btn-label-primary dropdown-toggle mx-3',
-                    text: '<i class="ti ti-logout rotate-n90 me-2"></i>Export',
+                    text: '<i class="ti ti-logout rotate-n90 me-2"></i>' + exportFile,
                     buttons: [
                         {
                             extend: 'print',
@@ -298,7 +326,7 @@ $(function () {
                     ]
                 },
                 {
-                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">Add New country</span>',
+                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">' + addNewTranslation + '</span>',
                     className: 'add-new btn btn-primary',
                     attr: {
                         'data-bs-toggle': 'offcanvas',
@@ -367,16 +395,17 @@ $(function () {
 
         // sweetalert for confirmation of delete
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: confirm,
+            // text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: deleteItem,
             customClass: {
                 confirmButton: 'btn btn-primary me-3',
                 cancelButton: 'btn btn-label-secondary'
             },
-            buttonsStyling: false
+            buttonsStyling: false,
+            cancelButtonText: cancel,
         }).then(function (result) {
             if (result.value) {
                 // delete the data
@@ -394,8 +423,8 @@ $(function () {
                 // success sweetalert
                 Swal.fire({
                     icon: 'success',
-                    title: 'Deleted!',
-                    text: 'The country has been deleted!',
+                    // title: 'Deleted!',
+                    text: delete_done,
                     customClass: {
                         confirmButton: 'btn btn-success'
                     }
@@ -424,7 +453,7 @@ $(function () {
         }
 
         // changing the title of offcanvas
-        $('#offcanvasAddCountryLabel').html('Edit country');
+        $('#offcanvasAddCountryLabel').html(edit);
 
         // get data
         $.get(`${baseUrl}/admin/countries\/${country_id}\/edit`, function (data) {
@@ -438,7 +467,7 @@ $(function () {
     // changing the title
     $('.add-new').on('click', function () {
         $('#country_id').val(''); //reseting input field
-        $('#offcanvasAddCountryLabel').html('Add country');
+        $('#offcanvasAddCountryLabel').html(addNewTranslation);
     });
 
     // Filter form control to default size
@@ -457,21 +486,21 @@ $(function () {
             name_en: {
                 validators: {
                     notEmpty: {
-                        message: 'Please enter name (en)'
+                        message: nameEnRequiredTranslation
                     }
                 }
             },
             name_ar: {
                 validators: {
                     notEmpty: {
-                        message: 'Please enter name (ar)'
+                        message: nameArRequiredTranslation
                     }
                 }
             },
             country_key: {
                 validators: {
                     notEmpty: {
-                        message: 'Please enter country key'
+                        message: countryKeyRequiredTranslation
                     }
                 }
             },
@@ -503,7 +532,7 @@ $(function () {
         // adding or updating country when form successfully validate
         $.ajax({
             // data: $('#addNewcountryForm').serialize(),
-            url: `${baseUrl}/admin/countries`,
+            url: `${baseUrl}/${lang}/admin/countries`,
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -518,11 +547,12 @@ $(function () {
                 // sweetalert
                 Swal.fire({
                     icon: 'success',
-                    title: `Successfully ${status}!`,
-                    text: `country ${status} Successfully.`,
+                    title: `${status}!`,
+                  //  text: `country ${status} Successfully.`,
                     customClass: {
                         confirmButton: 'btn btn-success'
-                    }
+                    },
+                    confirmButtonText: oky
                 });
             },
             error: function (xhr) {
