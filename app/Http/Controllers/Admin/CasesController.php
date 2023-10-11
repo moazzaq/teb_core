@@ -130,7 +130,7 @@ class CasesController extends Controller
             $cases->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $cases = Cases::where('id', $request->id)->first();
@@ -139,7 +139,7 @@ class CasesController extends Controller
                 $cases = Cases::create($data);
 
                 // category created
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // category already exist
                 return response()->json(['message' => "already exits"], 422);

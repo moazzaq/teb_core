@@ -104,7 +104,7 @@ class NationalityController extends Controller
             $nationality->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $nationality = Nationality::where('id', $request->id)->first();
@@ -112,7 +112,7 @@ class NationalityController extends Controller
             if (empty($country)) {
                 $nationality = Nationality::create($data);
 
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // country Already exist
                 return response()->json(['message' => "Already exits"], 422);

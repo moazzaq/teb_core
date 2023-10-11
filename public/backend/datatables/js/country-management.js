@@ -431,7 +431,7 @@ $(function () {
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire({
-                    title: 'Cancelled',
+                    title: cancel,
                     text: 'The country is not deleted!',
                     icon: 'error',
                     customClass: {

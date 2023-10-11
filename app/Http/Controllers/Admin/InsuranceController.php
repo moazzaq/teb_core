@@ -104,7 +104,7 @@ class InsuranceController extends Controller
             $insurance->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $insurance = Insurance::where('id', $request->id)->first();
@@ -112,7 +112,7 @@ class InsuranceController extends Controller
             if (empty($country)) {
                 $insurance = Insurance::create($data);
 
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // country Already exist
                 return response()->json(['message' => "Already exits"], 422);

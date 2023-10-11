@@ -4,6 +4,27 @@
 
 'use strict';
 const validationMessages = $('#validation-messages');
+const addNewTranslation = validationMessages.data('add-new');
+const nameEnRequiredTranslation = validationMessages.data('name-en-required');
+const nameArRequiredTranslation = validationMessages.data('name-ar-required');
+const countryKeyRequiredTranslation = validationMessages.data('country-key-required');
+const exportFile = validationMessages.data('export');
+const selectOption = validationMessages.data('select');
+const edit = validationMessages.data('edit');
+const confirm = validationMessages.data('confirm');
+const deleteItem = validationMessages.data('delete');
+const cancel = validationMessages.data('cancel');
+const search = validationMessages.data('search');
+const next = validationMessages.data('next');
+const previous = validationMessages.data('previous');
+const showing = validationMessages.data('showing');
+const to = validationMessages.data('to');
+const of = validationMessages.data('of');
+const entries = validationMessages.data('entries');
+const actions = validationMessages.data('Actions');
+const lang = validationMessages.data('lang');
+const oky = validationMessages.data('oky');
+const delete_done = validationMessages.data('delete_done');
 
 // Datatable (jquery)
 $(function () {
@@ -16,7 +37,7 @@ $(function () {
     if (select2.length) {
         var $this = select2;
         $this.wrap('<div class="position-relative"></div>').select2({
-            placeholder: 'Select City',
+            placeholder: selectOption,
             dropdownParent: $this.parent()
         });
     }
@@ -94,7 +115,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: 'Actions',
+                    title: actions,
                     searchable: false,
                     orderable: false,
                     render: function (data, type, full, meta) {
@@ -127,14 +148,20 @@ $(function () {
             language: {
                 sLengthMenu: '_MENU_',
                 search: '',
-                searchPlaceholder: 'Search..'
+                searchPlaceholder: search,
+                paginate: {
+                    next: next,
+                    previous: previous
+                },
+                // info: 'Showing _START_ to _END_ of _TOTAL_ entries'
+                info: showing +' _START_ ' + to + ' _END_ ' + of + ' _TOTAL_ ' + entries
             },
             // Buttons with Dropdown
             buttons: [
                 {
                     extend: 'collection',
                     className: 'btn btn-label-primary dropdown-toggle mx-3',
-                    text: '<i class="ti ti-logout rotate-n90 me-2"></i>Export',
+                    text: '<i class="ti ti-logout rotate-n90 me-2"></i>' + exportFile,
                     buttons: [
                         {
                             extend: 'print',
@@ -282,7 +309,7 @@ $(function () {
                     ]
                 },
                 {
-                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">Add New Area</span>',
+                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">' + addNewTranslation + '</span>',
                     className: 'add-new btn btn-primary',
                     attr: {
                         'data-bs-toggle': 'offcanvas',
@@ -359,16 +386,17 @@ $(function () {
 
         // sweetalert for confirmation of delete
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: confirm,
+            // text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: deleteItem,
             customClass: {
                 confirmButton: 'btn btn-primary me-3',
                 cancelButton: 'btn btn-label-secondary'
             },
-            buttonsStyling: false
+            buttonsStyling: false,
+            cancelButtonText: cancel,
         }).then(function (result) {
             if (result.value) {
                 // delete the data
@@ -386,15 +414,16 @@ $(function () {
                 // success sweetalert
                 Swal.fire({
                     icon: 'success',
-                    title: 'Deleted!',
-                    text: 'The Area has been deleted!',
+                    // title: 'Deleted!',
+                    // text: 'The Area has been deleted!',
+                    text: delete_done,
                     customClass: {
                         confirmButton: 'btn btn-success'
                     }
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire({
-                    title: 'Cancelled',
+                    title: cancel,
                     text: 'The Area is not deleted!',
                     icon: 'error',
                     customClass: {
@@ -419,7 +448,7 @@ $(function () {
 
         // changing the title of offcanvas
 
-        $('#offcanvasAddAreaLabel').html('Edit Area');
+        $('#offcanvasAddAreaLabel').html(edit);
 
         // get data
         $.get(`${baseUrl}/admin/areas\/${area_id}\/edit`, function (data) {
@@ -434,7 +463,7 @@ $(function () {
     // changing the title
     $('.add-new').on('click', function () {
         $('#area_id').val(''); //reseting input field
-        $('#offcanvasAddAreaLabel').html('Add Area');
+        $('#offcanvasAddAreaLabel').html(addNewTranslation);
     });
 
     // Filter form control to default size
@@ -495,7 +524,7 @@ $(function () {
         // adding or updating category when form successfully validate
         $.ajax({
             data: $('#addNewAreaForm').serialize(),
-            url: `${baseUrl}/admin/areas`,
+            url: `${baseUrl}/${lang}/admin/areas`,
             type: 'POST',
             success: function (status) {
                 dt_category.draw();
@@ -506,8 +535,8 @@ $(function () {
                 // sweetalert
                 Swal.fire({
                     icon: 'success',
-                    title: `Successfully ${status}!`,
-                    text: `Area ${status} Successfully.`,
+                    title: `${status}!`,
+                  //  text: `Area ${status} Successfully.`,
                     customClass: {
                         confirmButton: 'btn btn-success'
                     }

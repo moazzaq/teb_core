@@ -19,7 +19,7 @@
         <!-- Product List Table -->
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">Filter</h5>
+{{--                <h5 class="card-title mb-0">Filter</h5>--}}
 {{--                <form>--}}
                     <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">
 
@@ -44,11 +44,11 @@
                     <thead class="border-top">
                     <tr>
                         <th></th>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>City</th>
-                        <th>Created At</th>
-                        <th>Actions</th>
+                        <th>#</th>
+                        <th>{{__('cp.name')}}</th>
+                        <th>{{__('cp.city')}}</th>
+                        <th>{{__('cp.created')}}</th>
+                        <th>{{__('cp.action')}}</th>
                     </tr>
                     </thead>
                 </table>
@@ -56,7 +56,7 @@
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddArea"
                  aria-labelledby="offcanvasAddAreaLabel">
                 <div class="offcanvas-header">
-                    <h5 id="offcanvasAddAreaLabel" class="offcanvas-title">Add Area</h5>
+                    <h5 id="offcanvasAddAreaLabel" class="offcanvas-title">{{__('cp.add_areas')}}</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
                 </div>
@@ -64,17 +64,17 @@
                     <form class="add-new-area pt-0" id="addNewAreaForm">
                         <input type="hidden" name="id" id="area_id">
                         <div class="mb-3">
-                            <label class="form-label" for="add-area-name">Name (ar)</label>
+                            <label class="form-label" for="add-area-name">{{__('cp.name_ar')}}</label>
                             <input type="text" class="form-control" id="add-area-name-ar"
-                                   placeholder="Area Name (ar)" name="name_ar" aria-label="Area Name (ar)"/>
+                                   placeholder="{{__('cp.name_ar')}}" name="name_ar" aria-label="{{__('cp.name_ar')}}"/>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="add-area-name">Name (en)</label>
+                            <label class="form-label" for="add-area-name">{{__('cp.name_en')}}</label>
                             <input type="text" class="form-control" id="add-area-name-en"
-                                   placeholder="Area Name (en)" name="name_en" aria-label="Area Name (en)"/>
+                                   placeholder="{{__('cp.name_en')}}" name="name_en" aria-label="{{__('cp.name_en')}}"/>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="city_id">City</label>
+                            <label class="form-label" for="city_id">{{__('cp.city')}}</label>
                             <select id="city_id" name="city_id" class="select2 form-select">
                                 <option value="">Select</option>
                                 @foreach($cities as $city)
@@ -83,17 +83,35 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">{{__('cp.save')}}</button>
+                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">{{__('cp.cancel')}}</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
     <div id="validation-messages" style="display: none;"
+         data-add-new="{{ trans('cp.add_area') }}"
+         data-edit="{{ trans('cp.edit') }}"
          data-name-en-required="{{ trans('cp.name_en_required') }}"
          data-name-ar-required="{{ trans('cp.name_ar_required') }}"
-         data-parent-id-required="{{ trans('cp.parent_id_required') }}">
+         data-parent-id-required="{{ trans('cp.parent_id_required') }}"
+         data-export="{{ trans('cp.export') }}"
+         data-select="{{ trans('cp.select') }}"
+         data-confirm="{{ trans('cp.confirm') }}"
+         data-delete="{{ trans('cp.delete') }}"
+         data-cancel="{{ trans('cp.cancel') }}"
+         data-search="{{ trans('cp.search') }}"
+         data-next="{{ trans('cp.next') }}"
+         data-previous="{{ trans('cp.previous') }}"
+         data-showing="{{ trans('cp.showing') }}"
+         data-to="{{ trans('cp.to') }}"
+         data-of="{{ trans('cp.of') }}"
+         data-entries="{{ trans('cp.entries') }}"
+         data-actions="{{ trans('cp.action') }}"
+         data-lang="{{ app()->getLocale() }}"
+         data-oky="{{ trans('cp.oky') }}"
+         data-delete_done="{{ trans('cp.delete_done') }}">
     </div>
 @endsection
 

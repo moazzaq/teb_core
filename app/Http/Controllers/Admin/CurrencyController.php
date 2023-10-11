@@ -125,7 +125,7 @@ class CurrencyController extends Controller
             $currency->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $currency = Currency::where('id', $request->id)->first();
@@ -134,7 +134,7 @@ class CurrencyController extends Controller
                 $currency = Currency::create($data);
 
                 // city created
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // city already exist
                 return response()->json(['message' => "already exits"], 422);

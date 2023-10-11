@@ -128,7 +128,7 @@ class ServicesController extends Controller
             $service->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $service = Service::where('id', $request->id)->first();
@@ -136,7 +136,7 @@ class ServicesController extends Controller
             if (empty($service)) {
                 $service = Service::create($data);
 
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // category Already exist
                 return response()->json(['message' => "Already exits"], 422);

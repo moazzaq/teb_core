@@ -126,7 +126,7 @@ class CitiesController extends Controller
             $city->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $city = City::where('id', $request->id)->first();
@@ -135,7 +135,7 @@ class CitiesController extends Controller
                 $city = City::create($data);
 
                 // city created
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // city already exist
                 return response()->json(['message' => "already exits"], 422);

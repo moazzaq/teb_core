@@ -135,7 +135,7 @@ class TreatmentsController extends Controller
             $treatment->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $treatment = Treatment::where('id', $request->id)->first();
@@ -144,7 +144,7 @@ class TreatmentsController extends Controller
                 $treatment = Treatment::create($data);
 
                 // category created
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // category already exist
                 return response()->json(['message' => "already exits"], 422);

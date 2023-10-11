@@ -126,7 +126,7 @@ class AreasController extends Controller
             $area->update($data);
 
             // user updated
-            return response()->json('Updated');
+            return response()->json(__('cp.update'));
         } else {
             // create new one if email is unique
             $area = Area::where('id', $request->id)->first();
@@ -135,7 +135,7 @@ class AreasController extends Controller
                 $area = Area::create($data);
 
                 // area created
-                return response()->json('Created');
+                return response()->json(__('cp.create'));
             } else {
                 // city already exist
                 return response()->json(['message' => "already exits"], 422);

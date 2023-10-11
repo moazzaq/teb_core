@@ -19,7 +19,7 @@
         <!-- Product List Table -->
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">Filter</h5>
+                <h5 class="card-title mb-0">{{__('cp.filter')}}</h5>
                 {{--                <form>--}}
                 <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">
 
@@ -31,7 +31,7 @@
                                 id="filterByCountryBtn">
                                         <span>
                                             <i class="la la-search"></i>
-                                            <span>Filter</span>
+                                            <span>{{__('cp.filter')}}</span>
                                         </span>
                         </button>
                     </div>
@@ -44,11 +44,11 @@
                     <thead class="border-top">
                     <tr>
                         <th></th>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Country</th>
-                        <th>Created At</th>
-                        <th>Actions</th>
+                        <th>#</th>
+                        <th>{{__('cp.name')}}</th>
+                        <th>{{__('cp.country')}}</th>
+                        <th>{{__('cp.created')}}</th>
+                        <th>{{__('cp.action')}}</th>
                     </tr>
                     </thead>
                 </table>
@@ -64,27 +64,27 @@
                     <form class="add-new-city pt-0" id="addNewCityForm">
                         <input type="hidden" name="id" id="city_id">
                         <div class="mb-3">
-                            <label class="form-label" for="add-city-name">Name (ar)</label>
+                            <label class="form-label" for="add-city-name">{{__('cp.name_ar')}}</label>
                             <input type="text" class="form-control" id="add-city-name-ar"
-                                   placeholder="City Name (ar)" name="name_ar" aria-label="City Name (ar)"/>
+                                   placeholder="{{__('cp.name_ar')}}" name="name_ar" aria-label="{{__('cp.name_ar')}}"/>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="add-city-name">Name (en)</label>
+                            <label class="form-label" for="add-city-name">{{__('cp.name_en')}}</label>
                             <input type="text" class="form-control" id="add-city-name-en"
-                                   placeholder="City Name (en)" name="name_en" aria-label="City Name (en)"/>
+                                   placeholder="{{__('cp.name_en')}}" name="name_en" aria-label="{{__('cp.name_en')}}"/>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="country_id">Country</label>
+                            <label class="form-label" for="country_id">{{__('cp.country')}}</label>
                             <select id="country_id" name="country_id" class="select2 form-select">
-                                <option value="">Select</option>
+                                <option value="">{{__('cp.select')}}</option>
                                 @foreach($countries as $country)
                                     <option value="{{$country->id}}">{{$country->name}}</option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
-                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">{{__('cp.save')}}</button>
+                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">{{__('cp.cancel')}}</button>
                     </form>
                 </div>
             </div>
@@ -93,9 +93,27 @@
 
     <div id="list_countries" data-countries="{{json_encode($countries)}}"></div>
     <div id="validation-messages" style="display: none;"
+         data-add-new="{{ trans('cp.add_city') }}"
+         data-edit="{{ trans('cp.edit') }}"
          data-name-en-required="{{ trans('cp.name_en_required') }}"
          data-name-ar-required="{{ trans('cp.name_ar_required') }}"
-         data-country-id-required="{{ trans('cp.country_id_required') }}">
+         data-country-id-required="{{ trans('cp.country_id_required') }}"
+         data-export="{{ trans('cp.export') }}"
+         data-select="{{ trans('cp.select') }}"
+         data-confirm="{{ trans('cp.confirm') }}"
+         data-delete="{{ trans('cp.delete') }}"
+         data-cancel="{{ trans('cp.cancel') }}"
+         data-search="{{ trans('cp.search') }}"
+         data-next="{{ trans('cp.next') }}"
+         data-previous="{{ trans('cp.previous') }}"
+         data-showing="{{ trans('cp.showing') }}"
+         data-to="{{ trans('cp.to') }}"
+         data-of="{{ trans('cp.of') }}"
+         data-entries="{{ trans('cp.entries') }}"
+         data-actions="{{ trans('cp.action') }}"
+         data-lang="{{ app()->getLocale() }}"
+         data-oky="{{ trans('cp.oky') }}"
+         data-delete_done="{{ trans('cp.delete_done') }}">
     </div>
 @endsection
 
