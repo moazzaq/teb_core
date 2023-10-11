@@ -353,7 +353,7 @@ $(function () {
                     ]
                 },
                 {
-                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">Add New Case</span>',
+                    text: '<i class="ti ti-plus me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">' + addNewTranslation + '</span>',
                     className: 'add-new btn btn-primary',
                     attr: {
                         'data-bs-toggle': 'offcanvas',
@@ -422,16 +422,17 @@ $(function () {
 
         // sweetalert for confirmation of delete
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: confirm,
+            // text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonText: deleteItem,
             customClass: {
                 confirmButton: 'btn btn-primary me-3',
                 cancelButton: 'btn btn-label-secondary'
             },
-            buttonsStyling: false
+            buttonsStyling: false,
+            cancelButtonText: cancel,
         }).then(function (result) {
             if (result.value) {
                 // delete the data
@@ -449,15 +450,14 @@ $(function () {
                 // success sweetalert
                 Swal.fire({
                     icon: 'success',
-                    title: 'Deleted!',
-                    text: 'The Cases has been deleted!',
+                    text: delete_done,
                     customClass: {
                         confirmButton: 'btn btn-success'
                     }
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire({
-                    title: 'Cancelled',
+                    title: cancel,
                     text: 'The Cases is not deleted!',
                     icon: 'error',
                     customClass: {
@@ -474,7 +474,7 @@ $(function () {
     // changing the title
     $('.add-new').on('click', function () {
         $('#case_id').val(''); //reseting input field
-        $('#offcanvasAddCasesLabel').html('Add Cases');
+        $('#offcanvasAddCasesLabel').html(addNewTranslation);
     });
 
     // Filter form control to default size
@@ -493,21 +493,21 @@ $(function () {
             name_en: {
                 validators: {
                     notEmpty: {
-                        message: 'Please enter name (en)'
+                        message:  validationMessages.data('name-en-required')
                     }
                 }
             },
             name_ar: {
                 validators: {
                     notEmpty: {
-                        message: 'Please enter name (ar)'
+                        message:  validationMessages.data('name-ar-required')
                     }
                 }
             },
             category_id: {
                 validators: {
                     notEmpty: {
-                        message: 'Please choose category'
+                        message: validationMessages.data('name-ar-required')
                     }
                 }
             },
@@ -532,7 +532,7 @@ $(function () {
         // adding or updating category when form successfully validate
         $.ajax({
             // data: $('#addNewCategoryForm').serialize(),
-            url: `${baseUrl}/admin/cases`,
+            url: `${baseUrl}/${lang}/admin/cases`,
             type: 'POST',
             data: formData,
             dataType: 'json',
@@ -547,8 +547,8 @@ $(function () {
                 // sweetalert
                 Swal.fire({
                     icon: 'success',
-                    title: `Successfully ${status}!`,
-                    text: `Cases ${status} Successfully.`,
+                    title: `${status}!`,
+                    // text: `Cases ${status} Successfully.`,
                     customClass: {
                         confirmButton: 'btn btn-success'
                     }
