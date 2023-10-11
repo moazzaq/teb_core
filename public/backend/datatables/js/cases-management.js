@@ -3,7 +3,29 @@
  */
 
 'use strict';
-
+const validationMessages = $('#validation-messages');
+const addNewTranslation = validationMessages.data('add-new');
+const nameEnRequiredTranslation = validationMessages.data('name-en-required');
+const nameArRequiredTranslation = validationMessages.data('name-ar-required');
+const categoryIdRequiredTranslation = validationMessages.data('category-id-required');
+const childCategoryIdRequiredTranslation = validationMessages.data('child-category-id-required');
+const exportFile = validationMessages.data('export');
+const selectOption = validationMessages.data('select');
+const edit = validationMessages.data('edit');
+const confirm = validationMessages.data('confirm');
+const deleteItem = validationMessages.data('delete');
+const cancel = validationMessages.data('cancel');
+const search = validationMessages.data('search');
+const next = validationMessages.data('next');
+const previous = validationMessages.data('previous');
+const showing = validationMessages.data('showing');
+const to = validationMessages.data('to');
+const of = validationMessages.data('of');
+const entries = validationMessages.data('entries');
+const actions = validationMessages.data('Actions');
+const lang = validationMessages.data('lang');
+const oky = validationMessages.data('oky');
+const delete_done = validationMessages.data('delete_done');
 // Datatable (jquery)
 $(function () {
     // Variable declaration for table
@@ -16,14 +38,14 @@ $(function () {
     if (select2.length) {
         var $this = select2;
         $this.wrap('<div class="position-relative"></div>').select2({
-            placeholder: 'Select Category',
+            placeholder: selectOption,
             dropdownParent: $this.parent()
         });
     }
     if (sub_select2.length) {
         var $this_sub = sub_select2;
         $this_sub.wrap('<div class="position-relative"></div>').select2({
-            placeholder: 'Select Sub-Category',
+            placeholder: selectOption,
             dropdownParent: $this_sub.parent()
         });
     }
@@ -137,7 +159,7 @@ $(function () {
                 {
                     // Actions
                     targets: -1,
-                    title: 'Actions',
+                    title: actions,
                     searchable: false,
                     orderable: false,
                     render: function (data, type, full, meta) {
@@ -170,14 +192,20 @@ $(function () {
             language: {
                 sLengthMenu: '_MENU_',
                 search: '',
-                searchPlaceholder: 'Search..'
+                searchPlaceholder: search,
+                paginate: {
+                    next: next,
+                    previous: previous
+                },
+                // info: 'Showing _START_ to _END_ of _TOTAL_ entries'
+                info: showing +' _START_ ' + to + ' _END_ ' + of + ' _TOTAL_ ' + entries
             },
             // Buttons with Dropdown
             buttons: [
                 {
                     extend: 'collection',
                     className: 'btn btn-label-primary dropdown-toggle mx-3',
-                    text: '<i class="ti ti-logout rotate-n90 me-2"></i>Export',
+                    text: '<i class="ti ti-logout rotate-n90 me-2"></i>' + exportFile,
                     buttons: [
                         {
                             extend: 'print',

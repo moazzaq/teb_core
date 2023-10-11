@@ -78,6 +78,8 @@
          data-name-en-required="{{ trans('cp.name_en_required') }}"
          data-name-ar-required="{{ trans('cp.name_ar_required') }}"
          data-country-id-required="{{ trans('cp.country_id_required') }}"
+         data-category-id-required="{{ trans('cp.category_id_required') }}"
+         data-child-category-id-required="{{ trans('cp.child_category_id_required') }}"
          data-export="{{ trans('cp.export') }}"
          data-select="{{ trans('cp.select') }}"
          data-confirm="{{ trans('cp.confirm') }}"

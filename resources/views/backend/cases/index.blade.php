@@ -17,12 +17,12 @@
                        <thead class="border-top">
                        <tr>
                            <th></th>
-                           <th>Id</th>
-                           <th>Name</th>
-                           <th>Category</th>
-                           <th>Sub-Category</th>
-                           <th>Created At</th>
-                           <th>Actions</th>
+                           <th>#</th>
+                           <th>{{__('cp.name')}}</th>
+                           <th>{{__('cp.maincategory')}}</th>
+                           <th>{{__('cp.subcategory')}}</th>
+                           <th>{{__('cp.created')}}</th>
+                           <th>{{__('cp.action')}}</th>
                        </tr>
                        </thead>
                    </table>
@@ -37,15 +37,15 @@
                        <form class="add-new-cases pt-0" id="addNewCasesForm" enctype="multipart/form-data">
                            <input type="hidden" name="id" id="case_id">
                            <div class="mb-3">
-                               <label class="form-label" for="add-case-name">Name (ar)</label>
-                               <input type="text" class="form-control" id="add-case-name-ar" placeholder="Case Name (ar)" name="name_ar" aria-label="Case Name (ar)" />
+                               <label class="form-label" for="add-case-name">{{__('cp.name_ar')}}</label>
+                               <input type="text" class="form-control" id="add-case-name-ar" placeholder="{{__('cp.name_ar')}}" name="name_ar" aria-label="{{__('cp.name_ar')}}" />
                            </div>
                            <div class="mb-3">
-                               <label class="form-label" for="add-case-name">Name (en)</label>
-                               <input type="text" class="form-control" id="add-case-name-en" placeholder="Case Name (en)" name="name_en" aria-label="Case Name (en)" />
+                               <label class="form-label" for="add-case-name">{{__('cp.name_en')}}</label>
+                               <input type="text" class="form-control" id="add-case-name-en" placeholder="{{__('cp.name_en')}}" name="name_en" aria-label="{{__('cp.name_en')}}" />
                            </div>
                            <div class="mb-3">
-                               <label class="form-label" for="category_id">Main Category</label>
+                               <label class="form-label" for="category_id">{{__('cp.maincategory')}}</label>
                                <select id="category_id" name="category_id" class="select2 form-select">
                                    <option value="">Select</option>
                                    @foreach($parent_categories as $category)
@@ -54,7 +54,7 @@
                                </select>
                            </div>
                            <div class="mb-3">
-                               <label class="form-label" for="child_category_id">Sub Category</label>
+                               <label class="form-label" for="child_category_id">{{__('cp.subcategory')}}</label>
                                <select id="child_category_id" name="child_category_id" class="select2_sub form-select">
                                    <option value="">Select</option>
 {{--                                   @foreach($child_categories as $sub)--}}
@@ -63,13 +63,39 @@
                                </select>
                            </div>
 
-                           <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">Submit</button>
-                           <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+                           <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">{{__('cp.save')}}</button>
+                           <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">{{__('cp.cancel')}}</button>
                        </form>
                    </div>
                </div>
            </div>
        </div>
+    </div>
+
+    <div id="validation-messages" style="display: none;"
+         data-add-new="{{ trans('cp.add_treatments') }}"
+         data-edit="{{ trans('cp.edit') }}"
+         data-name-en-required="{{ trans('cp.name_en_required') }}"
+         data-name-ar-required="{{ trans('cp.name_ar_required') }}"
+         data-country-id-required="{{ trans('cp.country_id_required') }}"
+         data-category-id-required="{{ trans('cp.category_id_required') }}"
+         data-child-category-id-required="{{ trans('cp.child_category_id_required') }}"
+         data-export="{{ trans('cp.export') }}"
+         data-select="{{ trans('cp.select') }}"
+         data-confirm="{{ trans('cp.confirm') }}"
+         data-delete="{{ trans('cp.delete') }}"
+         data-cancel="{{ trans('cp.cancel') }}"
+         data-search="{{ trans('cp.search') }}"
+         data-next="{{ trans('cp.next') }}"
+         data-previous="{{ trans('cp.previous') }}"
+         data-showing="{{ trans('cp.showing') }}"
+         data-to="{{ trans('cp.to') }}"
+         data-of="{{ trans('cp.of') }}"
+         data-entries="{{ trans('cp.entries') }}"
+         data-actions="{{ trans('cp.action') }}"
+         data-lang="{{ app()->getLocale() }}"
+         data-oky="{{ trans('cp.oky') }}"
+         data-delete_done="{{ trans('cp.delete_done') }}">
     </div>
 @endsection
 
@@ -124,9 +150,10 @@
                 if (dtrModal.length) {
                     dtrModal.modal('hide');
                 }
-
+                var edit = "{{__('edit')}}"
+                var select = "{{__('select')}}"
                 // changing the title of offcanvas
-                $('#offcanvasAddCasesLabel').html('Edit Case');
+                $('#offcanvasAddCasesLabel').html(edit);
 
                 // get data
                 $.get(`${baseUrl}/admin/cases\/${case_id}\/edit`, function (data) {
@@ -149,7 +176,7 @@
                                         childCategoryDropdown.empty();
                                         childCategoryDropdown.focus();
 
-                                        childCategoryDropdown.append('<option value="">Select</option>');
+                                        childCategoryDropdown.append('<option value="">+select+</option>');
                                         $.each(subCategoryData, function (key, value) {
                                             childCategoryDropdown.append('<option value="' + value.id + '">' + value.name + '</option>');
                                         });
