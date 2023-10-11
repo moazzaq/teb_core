@@ -1152,6 +1152,8 @@ return [
     "name_ar_required" => "من فضلك أدخل الاسم (عربي)",
     "parent_id_required" => "من فضلك اختر الفئة الرئيسية",
     "country_key_required" => "من فضلك أدخل مفتاح الدولة",
+    "category_id_required" => "من فضلك اختر الفئة الرئيسية",
+    "child_category_id_required" => "من فضلك اختر الفئة الفرعية",
     'add_category' => 'اضافة قسم',
     'add_sub_category' => 'اضافة قسم فرعي',
     'add_country' => 'اضافة دولة',

@@ -973,6 +973,8 @@ return [
     "name_en_required" => "Please enter name (English)",
     "name_ar_required" => "Please enter name (Arabic)",
     "parent_id_required" => "Please enter main category",
+    "category_id_required" => "Please enter main category",
+    "child_category_id_required" => "Please enter sub-category",
     "country_key_required" => "Please enter country key",
     'add_category' => 'Add New Category',
     'add_sub_category' => 'Add New Sub-Category',
